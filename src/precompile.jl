@@ -12,10 +12,10 @@ function _precompile_()
     precompile(Tuple{Type{GtkToolButton},String})
     precompile(Tuple{Type{GtkToolbar}})
     precompile(Tuple{Type{GtkCanvas},Int,Int})
-    precompile(Tuple{typeof(signal_emit),GtkCanvas,String,Type,GdkEventScroll})
-    precompile(Tuple{typeof(signal_emit),GtkCanvas,String,Type,GdkEventMotion})
-    precompile(Tuple{typeof(signal_emit),GtkCanvas,String,Type,GdkEventButton})
-    precompile(Tuple{typeof(signal_emit),GtkEntryLeaf,Symbol,Type})
+    # precompile(Tuple{typeof(signal_emit),GtkCanvas,String,Type,GdkEventScroll})
+    # precompile(Tuple{typeof(signal_emit),GtkCanvas,String,Type,GdkEventMotion})
+    # precompile(Tuple{typeof(signal_emit),GtkCanvas,String,Type,GdkEventButton})
+    # precompile(Tuple{typeof(signal_emit),GtkEntryLeaf,Symbol,Type})
     precompile(Tuple{typeof(signal_connect),Function,GtkComboBoxTextLeaf,Symbol})
     precompile(Tuple{typeof(setindex!),Dict{Union{WeakRef, GObject},Bool},Bool,GtkTextBufferLeaf})
     precompile(Tuple{typeof(notify_realize),Ptr{GObject},GtkCanvas})
@@ -25,10 +25,10 @@ function _precompile_()
     precompile(Tuple{typeof(canvas_on_draw_event),Ptr{GObject},Ptr{Nothing},GtkCanvas})   # time: 0.001126875
     precompile(Tuple{typeof(mousedown_cb),Ptr{GObject},Ptr{GdkEventButton},MouseHandler})   # time: 0.001090291
     precompile(Tuple{typeof(signal_connect),typeof(notify_realize), GtkCanvas, String, Type{Nothing}, Tuple{}})
-    precompile(Tuple{typeof(open_dialog),String,GtkWidget,Tuple{String}})
-    precompile(Tuple{typeof(open_dialog),String,GtkWidget,Tuple{String,String}})
-    precompile(Tuple{typeof(save_dialog),String,GtkWidget,Tuple{String}})
-    precompile(Tuple{Type{GtkFileChooserDialogLeaf},String,GtkContainer,Int32,Tuple{Tuple{String, Int32}, Tuple{String, Int32}}})
+    precompile(Tuple{typeof(open_dialog),String,GtkWindowLeaf,Tuple{String}})
+    precompile(Tuple{typeof(open_dialog),String,GtkWindowLeaf,Tuple{String,String}})
+    precompile(Tuple{typeof(save_dialog),String,GtkWindowLeaf,Tuple{String}})
+    precompile(Tuple{Type{GtkFileChooserDialogLeaf},String,GtkWindowLeaf,Int32,Tuple{Tuple{String, Int32}, Tuple{String, Int32}}})
     precompile(Tuple{Type{GtkFileFilterLeaf},String})
     precompile(Tuple{typeof(makefilters!),GtkFileChooser,Tuple{String, String}})
     precompile(Tuple{typeof(draw),GtkCanvas,Bool})
@@ -41,7 +41,7 @@ function _precompile_()
         GtkButtonLeaf,
         GtkToolButtonLeaf,
         GtkCanvas,
-        GtkWidget,
+        # GtkWidget,
         GtkProgressBarLeaf,
         GtkLabelLeaf,
         GtkScaleLeaf,
@@ -52,12 +52,12 @@ function _precompile_()
         GtkCheckButtonLeaf,
         GtkComboBoxTextLeaf,
         GtkAspectFrameLeaf,
-        GtkLabel,
+        # GtkLabel,
         GtkAdjustmentLeaf,
-        GObject,
+        # GObject,
         GtkTextBufferLeaf,
         GtkTextViewLeaf,
-        GtkTextBuffer,
+        # GtkTextBuffer,
         GtkGridLeaf,
     ]
         precompile(Tuple{typeof(GLib.gobject_ref), T})
