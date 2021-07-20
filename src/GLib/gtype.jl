@@ -231,7 +231,7 @@ function get_type_decl(name, iname, gtyp, gtype_decl, cm)
 end
 
 macro Gtype_decl(name, gtyp, gtype_decl)
-    get_type_decl(name, Symbol(string(name, __module__.suffix)), gtyp, gtype_decl, __module__)
+    get_type_decl(Symbol(string(name, __module__.suffix)), name, gtyp, gtype_decl, __module__)
 end
 
 macro Gtype(iname, lib, symname)

@@ -47,7 +47,7 @@ function write_gtk_consts(fn)
     gtk = GINamespace(:Gtk,"$version.0")
     gtk_exclude = ["STOCK_", "STYLE_", "PRINT_SETTINGS_"]
     for (name,val) in GI.get_consts(gtk)
-        if !any([beginswith(string(name),prefix) for prefix in gtk_exclude])
+        if !any([startswith(string(name),prefix) for prefix in gtk_exclude])
             push!(exprs, const_expr("GTK_$name",val))
         end
     end
@@ -60,7 +60,7 @@ function write_gtk_consts(fn)
     gdk = GINamespace(:Gdk)
     #Key names could go into a Dict/submodule or something
     for (name,val) in GI.get_consts(gdk)
-        if !beginswith(string(name),"KEY_")
+        if !startswith(string(name),"KEY_")
             push!(exprs, const_expr("GDK_$name",val))
         end
     end
@@ -84,6 +84,6 @@ function write_gtk_consts(fn)
     end
 end
 
-version = (length(ARGS) > 0) ? int(ARGS[1]) : 3
+version = (length(ARGS) > 0) ? parse(Int,ARGS[1]) : 3
 
-write_gtk_consts("gconsts$version", version)
+write_gtk_consts("gconsts$version")
