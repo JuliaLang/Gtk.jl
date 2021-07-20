@@ -33,9 +33,14 @@ if isdir(dir)
 end
 ```
 
+The open and save dialogs (incl. native versions) support the keyword argument `current_folder`
+to set the current folder shown when the dialog opens. Both save dialog variants support an additional
+keyword argument, `current_name`, to allow suggesting a filename for saving.
+
 Here are some examples:
 ```julia
 open_dialog("Pick a file")
+open_dialog("Pick a file"; current_folder=homedir())
 open_dialog("Pick some files", select_multiple=true)
 open_dialog("Pick a file", Null(), ("*.jl",))
 open_dialog("Pick some text files", GtkNullContainer(), ("*.txt, *.csv",), select_multiple=true)
@@ -44,6 +49,8 @@ open_dialog("Pick an image file", GtkNullContainer(), ("*.png", "*.jpg", GtkFile
 open_dialog("Pick an image file", GtkNullContainer(), (GtkFileFilter(name="Supported image formats"),))
 
 save_dialog("Save as...", Null(), (GtkFileFilter("*.png, *.jpg", name="All supported formats"), "*.png", "*.jpg"))
+save_dialog("Save as...", Null(), (GtkFileFilter("*.png, *.jpg", name="All supported formats"), "*.png", "*.jpg");
+            current_name="Profile.jpg")
 ```
 
 

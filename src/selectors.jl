@@ -87,13 +87,17 @@ function makefilters!(dlgp::GtkFileChooser, filters::Union{AbstractVector, Tuple
     end
 end
 
-function open_dialog(title::AbstractString, parent = GtkNullContainer(), filters::Union{AbstractVector, Tuple} = String[]; kwargs...)
+function open_dialog(title::AbstractString, parent = GtkNullContainer(), filters::Union{AbstractVector, Tuple} = String[];
+                     current_folder::Union{AbstractString, Nothing} = nothing, kwargs...)
     dlg = GtkFileChooserDialog(title, parent, GConstants.GtkFileChooserAction.OPEN,
                                 (("_Cancel", GConstants.GtkResponseType.CANCEL),
                                  ("_Open",   GConstants.GtkResponseType.ACCEPT)); kwargs...)
     dlgp = GtkFileChooser(dlg)
     if !isempty(filters)
         makefilters!(dlgp, filters)
+    end
+    if !isnothing(current_folder)
+        ccall((:gtk_file_chooser_set_current_folder, libgtk), Nothing, (Ptr{GObject}, Ptr{UInt8}), dlgp, current_folder)
     end
     response = run(dlg)
     multiple = get_gtk_property(dlg, :select_multiple, Bool)
@@ -116,11 +120,15 @@ function open_dialog(title::AbstractString, parent = GtkNullContainer(), filters
     return selection
 end
 
-function open_dialog_native(title::AbstractString, parent = GtkNullContainer(), filters::Union{AbstractVector, Tuple} = String[]; kwargs...)
+function open_dialog_native(title::AbstractString, parent = GtkNullContainer(), filters::Union{AbstractVector, Tuple} = String[];
+                            current_folder::Union{AbstractString, Nothing} = nothing, kwargs...)
     dlg = GtkFileChooserNative(title, parent, GConstants.GtkFileChooserAction.OPEN,"_Open","_Cancel"; kwargs...)
     dlgp = GtkFileChooser(dlg)
     if !isempty(filters)
         makefilters!(dlgp, filters)
+    end
+    if !isnothing(current_folder)
+        ccall((:gtk_file_chooser_set_current_folder, libgtk), Nothing, (Ptr{GObject}, Ptr{UInt8}), dlgp, current_folder)
     end
     response = run(dlg)
     multiple = get_gtk_property(dlg, :select_multiple, Bool)
@@ -143,13 +151,21 @@ function open_dialog_native(title::AbstractString, parent = GtkNullContainer(), 
     return selection
 end
 
-function save_dialog(title::AbstractString, parent = GtkNullContainer(), filters::Union{AbstractVector, Tuple} = String[]; kwargs...)
+function save_dialog(title::AbstractString, parent = GtkNullContainer(), filters::Union{AbstractVector, Tuple} = String[];
+                     current_folder::Union{AbstractString, Nothing} = nothing,
+                     current_name::Union{AbstractString, Nothing} = nothing, kwargs...)
     dlg = GtkFileChooserDialog(title, parent, GConstants.GtkFileChooserAction.SAVE,
                                 (("_Cancel", GConstants.GtkResponseType.CANCEL),
                                  ("_Save",   GConstants.GtkResponseType.ACCEPT)); kwargs...)
     dlgp = GtkFileChooser(dlg)
     if !isempty(filters)
         makefilters!(dlgp, filters)
+    end
+    if !isnothing(current_folder)
+        ccall((:gtk_file_chooser_set_current_folder, libgtk), Nothing, (Ptr{GObject}, Ptr{UInt8}), dlgp, current_folder)
+    end
+    if !isnothing(current_name)
+        ccall((:gtk_file_chooser_set_current_name, libgtk), Nothing, (Ptr{GObject}, Ptr{UInt8}), dlgp, current_name)
     end
     ccall((:gtk_file_chooser_set_do_overwrite_confirmation, libgtk), Nothing, (Ptr{GObject}, Cint), dlg, true)
     response = run(dlg)
@@ -162,11 +178,19 @@ function save_dialog(title::AbstractString, parent = GtkNullContainer(), filters
     return selection
 end
 
-function save_dialog_native(title::AbstractString, parent = GtkNullContainer(), filters::Union{AbstractVector, Tuple} = String[]; kwargs...)
+function save_dialog_native(title::AbstractString, parent = GtkNullContainer(), filters::Union{AbstractVector, Tuple} = String[];
+                            current_folder::Union{AbstractString, Nothing} = nothing,
+                            current_name::Union{AbstractString, Nothing} = nothing, kwargs...)
     dlg = GtkFileChooserNative(title, parent, GConstants.GtkFileChooserAction.SAVE,"_Save","_Cancel"; kwargs...)
     dlgp = GtkFileChooser(dlg)
     if !isempty(filters)
         makefilters!(dlgp, filters)
+    end
+    if !isnothing(current_folder)
+        ccall((:gtk_file_chooser_set_current_folder, libgtk), Nothing, (Ptr{GObject}, Ptr{UInt8}), dlgp, current_folder)
+    end
+    if !isnothing(current_name)
+        ccall((:gtk_file_chooser_set_current_name, libgtk), Nothing, (Ptr{GObject}, Ptr{UInt8}), dlgp, current_name)
     end
     ccall((:gtk_file_chooser_set_do_overwrite_confirmation, libgtk), Nothing, (Ptr{GObject}, Cint), dlg, true)
     response = run(dlg)
